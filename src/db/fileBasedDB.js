@@ -5,7 +5,7 @@ const path = require('path');
 const { ERR_CODE_NO_SUCH_FILE } = require('../config');
 
 class FileBasedDB {
-  #emailsFilename = 'emails.txt';
+  #emailsFilename = process.env.EMAILS_FILENAME;
   #dataDirectory;
   #pathToEmailsFile;
 

@@ -3,7 +3,7 @@
 const express = require('express');
 
 const rateController = require('../controllers/rateController');
-const subscriptionСontroller = require('../controllers/subscriptionСontroller');
+const subscriptionController = require('../controllers/subscriptionСontroller');
 const validateRequest = require('../middlewares/validateRequest');
 // eslint-disable-next-line max-len
 const subscribeValidationSchema = require('../middlewares/subscribeValidationSchema');
@@ -45,7 +45,7 @@ router
   .post(
     subscribeValidationSchema,
     validateRequest,
-    subscriptionСontroller.subscribe
+    subscriptionController.subscribe
   );
 
 /**
@@ -78,7 +78,7 @@ router
  *         description: Internal server error
  */
 
-router.route('/sendEmails').post(subscriptionСontroller.sendEmails);
+router.route('/sendEmails').post(subscriptionController.sendEmails);
 
 /**
  * @swagger

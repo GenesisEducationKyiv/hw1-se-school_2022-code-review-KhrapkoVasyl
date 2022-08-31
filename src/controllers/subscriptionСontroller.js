@@ -21,6 +21,6 @@ module.exports.subscribe = async (req, res) => {
 
 module.exports.sendEmails = async (req, res) => {
   res.setHeader('content-type', 'application/json');
-  const notSentToEmails = await notificationService.notifySubscribers();
-  return res.status(200).json({ notSentToEmails });
+  const emailAddressesNotSentTo = await notificationService.notifySubscribers();
+  return res.status(200).json({ notSentToEmails: emailAddressesNotSentTo });
 };
