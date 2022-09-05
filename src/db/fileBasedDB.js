@@ -1,11 +1,12 @@
 'use strict';
 
+require('dotenv').config();
 const fsp = require('fs').promises;
 const path = require('path');
 const { ERR_CODE_NO_SUCH_FILE } = require('../config');
 
 class FileBasedDB {
-  #emailsFilename = process.env.EMAILS_FILENAME;
+  #emailsFilename = process.env.EMAILS_FILENAME || 'emails.txt';
   #dataDirectory;
   #pathToEmailsFile;
 
