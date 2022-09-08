@@ -3,9 +3,10 @@
 require('dotenv').config();
 const fsp = require('fs').promises;
 const path = require('path');
-const { ERR_CODE_NO_SUCH_FILE } = require('../config');
+const { ERR_CODE_NO_SUCH_FILE } = require('../../config');
+const EmailsRepository = require('./emails.repository');
 
-class FileBasedDB {
+class FileBasedEmailsRepository extends EmailsRepository {
   #emailsFilename = process.env.EMAILS_FILENAME || 'emails.txt';
   #dataDirectory;
   #pathToEmailsFile;
@@ -13,12 +14,19 @@ class FileBasedDB {
   #emails = [];
 
   constructor(dataDirectory = path.join(__dirname, 'emailData')) {
+    super();
     this.#dataDirectory = dataDirectory;
 
     this.#pathToEmailsFile = path.join(
       this.#dataDirectory,
       this.#emailsFilename
     );
+
+    this.connect = this.connect.bind(this);
+    this.clearDB = this.clearDB.bind(this);
+    this.findAllEmails = this.findAllEmails.bind(this);
+    this.insertEmail = this.insertEmail.bind(this);
+    this.isEmailInDB = this.isEmailInDB.bind(this);
   }
 
   async connect() {
@@ -69,4 +77,4 @@ class FileBasedDB {
   }
 }
 
-module.exports = FileBasedDB;
+module.exports = FileBasedEmailsRepository;
