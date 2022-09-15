@@ -1,12 +1,14 @@
 /* eslint-disable max-len */
 'use strict';
 
-const getRateService = require('../getRateService');
+const BinanceRateReciever = require('./binance-rate.reciever');
 
-describe('getRate service testing', () => {
+const binanceRateReciever = new BinanceRateReciever();
+
+describe('RateReciever.getRate() testing', () => {
   test('Should return the value of the exchange rate, the value should be an integer greater than zero', async () => {
     try {
-      const rate = await getRateService();
+      const rate = await binanceRateReciever.getBtcUahRate();
 
       expect(typeof rate).toBe('number');
       expect(Number.isInteger(rate)).toBe(true);

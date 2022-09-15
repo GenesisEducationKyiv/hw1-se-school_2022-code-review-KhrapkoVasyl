@@ -3,19 +3,19 @@
 
 const path = require('path');
 const fsp = require('fs').promises;
-const FileBasedDB = require('./fileBasedDB');
+const FileBasedEmailsRepository = require('./fileBasedEmails.repository');
 
-describe('File Based Database Testing', () => {
+describe('File Based Emails Repository Testing', () => {
   const dirPath = path.join(__dirname, 'testData');
   const emailsFilePath = path.join(dirPath, 'emails.txt');
-  const db = new FileBasedDB(dirPath);
+  const fileBasedEmailsRepository = new FileBasedEmailsRepository(dirPath);
 
   beforeEach(async () => {
-    await db.connect();
+    await fileBasedEmailsRepository.connect();
   });
 
   afterEach(async () => {
-    await db.clearDB();
+    await fileBasedEmailsRepository.clearDB();
     await fsp
       .rm(dirPath, { recursive: true, force: true })
       .catch(err => console.log(err));
@@ -44,7 +44,9 @@ describe('File Based Database Testing', () => {
     test(`Should insert a new email address into the database, the return value should be equal to the email being inserted`, async () => {
       const newEmail = 'test@gmail.com';
 
-      const returnedEmail = await db.insertEmail(newEmail);
+      const returnedEmail = await fileBasedEmailsRepository.insertEmail(
+        newEmail
+      );
 
       const dataInEmailsFile = await fsp.readFile(emailsFilePath, {
         encoding: 'utf-8',
@@ -62,9 +64,15 @@ describe('File Based Database Testing', () => {
       const newEmail2 = 'test2@gmail.com';
       const newEmail3 = 'test3@gmail.com';
 
-      const returnedEmail1 = await db.insertEmail(newEmail1);
-      const returnedEmail2 = await db.insertEmail(newEmail2);
-      const returnedEmail3 = await db.insertEmail(newEmail3);
+      const returnedEmail1 = await fileBasedEmailsRepository.insertEmail(
+        newEmail1
+      );
+      const returnedEmail2 = await fileBasedEmailsRepository.insertEmail(
+        newEmail2
+      );
+      const returnedEmail3 = await fileBasedEmailsRepository.insertEmail(
+        newEmail3
+      );
 
       const dataInEmailsFile = await fsp.readFile(emailsFilePath, {
         encoding: 'utf-8',
@@ -85,9 +93,11 @@ describe('File Based Database Testing', () => {
     test(`Should return true when the email being checked has already been written to the database`, async () => {
       const newEmail = 'test@gmail.com';
       const emailToCheck = newEmail;
-      await db.insertEmail(newEmail);
+      await fileBasedEmailsRepository.insertEmail(newEmail);
 
-      const checkingResult = await db.isEmailInDB(emailToCheck);
+      const checkingResult = await fileBasedEmailsRepository.isEmailInDB(
+        emailToCheck
+      );
 
       expect(checkingResult).toBe(true);
     });
@@ -95,7 +105,9 @@ describe('File Based Database Testing', () => {
     test(`Should return false if the email being checked is not in the database`, async () => {
       const emailToCheck = 'test@gmail.com';
 
-      const checkingResult = await db.isEmailInDB(emailToCheck);
+      const checkingResult = await fileBasedEmailsRepository.isEmailInDB(
+        emailToCheck
+      );
 
       expect(checkingResult).toBe(false);
     });
@@ -106,11 +118,11 @@ describe('File Based Database Testing', () => {
       const emailToAdd1 = 'test1@gmail.com';
       const emailToAdd2 = 'test2@gmail.com';
       const emailToAdd3 = 'test3@gmail.com';
-      await db.insertEmail(emailToAdd1);
-      await db.insertEmail(emailToAdd2);
-      await db.insertEmail(emailToAdd3);
+      await fileBasedEmailsRepository.insertEmail(emailToAdd1);
+      await fileBasedEmailsRepository.insertEmail(emailToAdd2);
+      await fileBasedEmailsRepository.insertEmail(emailToAdd3);
 
-      const emailsArr = await db.findAllEmails();
+      const emailsArr = await fileBasedEmailsRepository.findAllEmails();
 
       expect(Array.isArray(emailsArr)).toBe(true);
       expect(emailsArr).toHaveLength(3);
@@ -120,7 +132,7 @@ describe('File Based Database Testing', () => {
     });
 
     test(`Should return an empty array if no email has been inserted`, async () => {
-      const emailsArr = await db.findAllEmails();
+      const emailsArr = await fileBasedEmailsRepository.findAllEmails();
 
       expect(Array.isArray(emailsArr)).toBe(true);
       expect(emailsArr).toHaveLength(0);
@@ -132,21 +144,21 @@ describe('File Based Database Testing', () => {
       const emailToAdd1 = 'test1@gmail.com';
       const emailToAdd2 = 'test2@gmail.com';
       const emailToAdd3 = 'test3@gmail.com';
-      await db.insertEmail(emailToAdd1);
-      await db.insertEmail(emailToAdd2);
-      await db.insertEmail(emailToAdd3);
+      await fileBasedEmailsRepository.insertEmail(emailToAdd1);
+      await fileBasedEmailsRepository.insertEmail(emailToAdd2);
+      await fileBasedEmailsRepository.insertEmail(emailToAdd3);
 
-      await db.clearDB();
+      await fileBasedEmailsRepository.clearDB();
 
-      const emailsArr = await db.findAllEmails();
+      const emailsArr = await fileBasedEmailsRepository.findAllEmails();
       expect(emailsArr).toHaveLength(0);
     });
 
     test(`Should not throw an error when trying to clear an empty array`, async () => {
       try {
-        await db.clearDB();
+        await fileBasedEmailsRepository.clearDB();
 
-        const emailsArr = await db.findAllEmails();
+        const emailsArr = await fileBasedEmailsRepository.findAllEmails();
         expect(emailsArr).toHaveLength(0);
       } catch (err) {
         expect(err).toBe(undefined);
