@@ -2,16 +2,22 @@
 'use strict';
 
 const path = require('path');
+const FileBasedEmailDataService = require('../services/file-based-email-data.service');
 const fsp = require('fs').promises;
 const FileBasedEmailRepository = require('./fileBasedEmail.repository');
 
 describe('File Based Email Repository Testing', () => {
-  const dirPath = path.join(__dirname, 'testData');
+  const dirPath = path.join(__dirname, '..', 'testData');
   const emailsFilePath = path.join(dirPath, 'emails.txt');
-  const fileBasedEmailRepository = new FileBasedEmailRepository(dirPath);
+
+  const fileBasedEmailDataService = new FileBasedEmailDataService(dirPath);
+  const fileBasedEmailRepository = new FileBasedEmailRepository(
+    fileBasedEmailDataService,
+    []
+  );
 
   beforeEach(async () => {
-    await fileBasedEmailRepository.connect();
+    await fileBasedEmailDataService.connect();
   });
 
   afterEach(async () => {
@@ -19,25 +25,6 @@ describe('File Based Email Repository Testing', () => {
     await fsp
       .rm(dirPath, { recursive: true, force: true })
       .catch(err => console.log(err));
-  });
-
-  describe('Testing the .connect() method', () => {
-    // The .connect() method creates
-    // a directory at the specified path (and database files in this directory).
-    // We don't call it directly in the test
-    // because this method is called before every test.
-
-    test('Should create directory ./test and not throw an error when trying to access this folder', async () => {
-      const testFolderAccess = async () => await fsp.access(dirPath);
-
-      expect(testFolderAccess).not.toThrow();
-    });
-
-    test('Should create datafile ./test/emails.txt and not throw an error when trying to access this datafile', async () => {
-      const testFileAccess = async () => await fsp.access(emailsFilePath);
-
-      expect(testFileAccess).not.toThrow();
-    });
   });
 
   describe('Testing the .insertEmail() method', () => {

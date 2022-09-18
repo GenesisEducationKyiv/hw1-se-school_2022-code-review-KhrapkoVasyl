@@ -2,7 +2,7 @@
 'use strict';
 
 require('dotenv').config();
-const GmailNodemailerEmailSender = require('./gmail-nodemailer-emails.sender');
+const GmailNodemailerEmailSender = require('./gmail-nodemailer-email.sender');
 
 const gmailNodemailerEmailSender = new GmailNodemailerEmailSender();
 
