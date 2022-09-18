@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 'use strict';
 
-class EmailsSender {
+class EmailSender {
   async sendEmails(mailReceivers, subject, text) {}
 }
 
-module.exports = EmailsSender;
+module.exports = EmailSender;

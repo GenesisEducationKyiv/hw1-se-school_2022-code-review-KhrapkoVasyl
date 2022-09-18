@@ -1,13 +1,13 @@
 'use strict';
 
-class NotificationsService {
-  #emailsRepository;
-  #emailsService;
+class NotificationService {
+  #emailRepository;
+  #emailService;
   #rateService;
 
-  constructor(emailsRepository, emailsService, rateService) {
-    this.#emailsRepository = emailsRepository;
-    this.#emailsService = emailsService;
+  constructor(emailRepository, emailService, rateService) {
+    this.#emailRepository = emailRepository;
+    this.#emailService = emailService;
     this.#rateService = rateService;
 
     this.notifySubscribers = this.notifySubscribers.bind(this);
@@ -18,9 +18,9 @@ class NotificationsService {
   async notifySubscribers() {
     try {
       const currentRate = await this.#rateService.getRate();
-      const mailReceivers = await this.#emailsRepository.findAllEmails();
+      const mailReceivers = await this.#emailRepository.findAllEmails();
       const textWithRate = this.text.replaceAll('$[RATE]', currentRate);
-      return await this.#emailsService.sendEmails(
+      return await this.#emailService.sendEmails(
         mailReceivers,
         this.subject,
         textWithRate
@@ -31,4 +31,4 @@ class NotificationsService {
   }
 }
 
-module.exports = NotificationsService;
+module.exports = NotificationService;

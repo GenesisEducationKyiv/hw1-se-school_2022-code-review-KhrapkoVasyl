@@ -1,7 +1,7 @@
 'use strict';
 
-const { emailsRepository } = require('../../../db');
-const SubscriptionsService = require('./subscriptions.service');
+const { emailRepository } = require('../../../db');
+const SubscriptionService = require('./subscription.service');
 
-const subscriptionsService = new SubscriptionsService(emailsRepository);
-module.exports = { subscriptionsService };
+const subscriptionService = new SubscriptionService(emailRepository);
+module.exports = { subscriptionService };

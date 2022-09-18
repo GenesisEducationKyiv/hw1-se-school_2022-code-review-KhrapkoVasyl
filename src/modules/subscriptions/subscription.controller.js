@@ -1,9 +1,9 @@
 'use strict';
 
-class SubscriptionsController {
-  #subscriptionsService;
-  constructor(subscriptionsService) {
-    this.#subscriptionsService = subscriptionsService;
+class SubscriptionController {
+  #subscriptionService;
+  constructor(subscriptionService) {
+    this.#subscriptionService = subscriptionService;
 
     this.subscribe = this.subscribe.bind(this);
   }
@@ -13,10 +13,10 @@ class SubscriptionsController {
     const email = req.body.email;
 
     try {
-      const isSubscribed = this.#subscriptionsService.isSubscribed(email);
+      const isSubscribed = this.#subscriptionService.isSubscribed(email);
       if (isSubscribed) return res.status(409).send();
 
-      await this.#subscriptionsService.subscribe(email);
+      await this.#subscriptionService.subscribe(email);
       return res.status(200).send();
     } catch (err) {
       console.log(err);
@@ -25,4 +25,4 @@ class SubscriptionsController {
   }
 }
 
-module.exports = SubscriptionsController;
+module.exports = SubscriptionController;

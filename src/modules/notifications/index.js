@@ -1,10 +1,11 @@
 'use strict';
 
-const { notificationsService } = require('./services');
-const NotificationsController = require('./notifications.controller');
+const { notificationService } = require('./services');
+const NotificationController = require('./notification.controller');
 
-const notificationsController = new NotificationsController(
-  notificationsService
-);
+const notificationController = new NotificationController(notificationService);
 
-module.exports = { notificationsController, notificationsService };
+module.exports = {
+  notificationController,
+  notificationService,
+};

@@ -1,10 +1,10 @@
 'use strict';
 
-const EmailsService = require('./emails.service');
+const EmailService = require('./email.service');
 // eslint-disable-next-line max-len
-const GmailNodemailerEmailsSender = require('./senders/gmail-nodemailer-emails.sender');
+const GmailNodemailerEmailSender = require('./senders/gmail-nodemailer-email.sender');
 
-const gmailNodemailerEmailsSender = new GmailNodemailerEmailsSender();
-const emailsService = new EmailsService(gmailNodemailerEmailsSender);
+const gmailNodemailerEmailSender = new GmailNodemailerEmailSender();
+const emailService = new EmailService(gmailNodemailerEmailSender);
 
-module.exports = { emailsService };
+module.exports = { emailService };

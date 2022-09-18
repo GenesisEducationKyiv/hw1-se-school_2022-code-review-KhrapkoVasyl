@@ -4,16 +4,16 @@ require('dotenv').config();
 const fsp = require('fs').promises;
 const path = require('path');
 const { ERR_CODE_NO_SUCH_FILE } = require('../../config');
-const EmailsRepository = require('./emails.repository');
+const EmailRepository = require('./email.repository');
 
-class FileBasedEmailsRepository extends EmailsRepository {
+class FileBasedEmailRepository extends EmailRepository {
   #emailsFilename = process.env.EMAILS_FILENAME || 'emails.txt';
   #dataDirectory;
   #pathToEmailsFile;
 
   #emails = [];
 
-  constructor(dataDirectory = path.join(__dirname, 'emailData')) {
+  constructor(dataDirectory = path.join(__dirname, '..', 'emailData')) {
     super();
     this.#dataDirectory = dataDirectory;
 
@@ -23,10 +23,10 @@ class FileBasedEmailsRepository extends EmailsRepository {
     );
 
     this.connect = this.connect.bind(this);
-    this.clearDB = this.clearDB.bind(this);
+    this.deleteAllEmails = this.deleteAllEmails.bind(this);
     this.findAllEmails = this.findAllEmails.bind(this);
     this.insertEmail = this.insertEmail.bind(this);
-    this.isEmailInDB = this.isEmailInDB.bind(this);
+    this.isEmailExists = this.isEmailExists.bind(this);
   }
 
   async connect() {
@@ -57,7 +57,7 @@ class FileBasedEmailsRepository extends EmailsRepository {
     await fsp.writeFile(this.#pathToEmailsFile, emailsStr);
   }
 
-  async clearDB() {
+  async deleteAllEmails() {
     this.#emails = [];
     await this.#saveEmailsToFile();
   }
@@ -72,9 +72,9 @@ class FileBasedEmailsRepository extends EmailsRepository {
     return email;
   }
 
-  isEmailInDB(email) {
+  isEmailExists(email) {
     return this.#emails.includes(email);
   }
 }
 
-module.exports = FileBasedEmailsRepository;
+module.exports = FileBasedEmailRepository;

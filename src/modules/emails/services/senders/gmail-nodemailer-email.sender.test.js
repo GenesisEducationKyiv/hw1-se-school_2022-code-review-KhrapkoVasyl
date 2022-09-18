@@ -2,11 +2,11 @@
 'use strict';
 
 require('dotenv').config();
-const GmailNodemailerEmailsSender = require('./gmail-nodemailer-emails.sender');
+const GmailNodemailerEmailSender = require('./gmail-nodemailer-emails.sender');
 
-const gmailNodemailerEmailsSender = new GmailNodemailerEmailsSender();
+const gmailNodemailerEmailSender = new GmailNodemailerEmailSender();
 
-describe('EmailsSender testing', () => {
+describe('EmailSender testing', () => {
   test('Should not throw an error when sending messages to 3 email addresses and should return an empty array of users who have not been sent a message', async () => {
     const testEmails = [
       'email1@test.com',
@@ -18,7 +18,7 @@ describe('EmailsSender testing', () => {
 
     try {
       const emailAddressesNotSentTo =
-        await gmailNodemailerEmailsSender.sendEmails(
+        await gmailNodemailerEmailSender.sendEmails(
           testEmails,
           testSubject,
           testText
@@ -35,7 +35,7 @@ describe('EmailsSender testing', () => {
   test('Should not throw an error when sending messages by passing an empty array of email recipients and should return an empty array of users who have not been sent a message', async () => {
     try {
       const emailAddressesNotSentTo =
-        await gmailNodemailerEmailsSender.sendEmails(
+        await gmailNodemailerEmailSender.sendEmails(
           [],
           'Test mail subject',
           'Test mail text'

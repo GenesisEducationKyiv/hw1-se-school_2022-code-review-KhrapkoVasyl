@@ -2,9 +2,9 @@
 'use strict';
 
 require('dotenv').config();
-const NotificationsService = require('./notifications.service');
-const { emailsRepository } = require('../../../db');
-const { emailsService } = require('../../emails');
+const NotificationService = require('./notification.service');
+const { emailRepository } = require('../../../db');
+const { emailService } = require('../../email');
 const { rateService } = require('../../rate');
 
 const mockRate = 50000;
@@ -16,7 +16,7 @@ const rateServiceMock = {
   },
 };
 
-const emailsRepositoryMock = {
+const emailRepositoryMock = {
   callesCounter: 0,
   async findAllEmails() {
     this.callesCounter++;
@@ -24,7 +24,7 @@ const emailsRepositoryMock = {
   },
 };
 
-const emailsServiceMock = {
+const emailServiceMock = {
   callesCounter: 0,
   async sendEmails() {
     this.callesCounter++;
@@ -32,20 +32,20 @@ const emailsServiceMock = {
   },
 };
 
-describe('NotificationsService.notifySubscribers() testing', () => {
-  describe('NotificationsService.notifySubscribers() unit test', () => {
+describe('NotificationService.notifySubscribers() testing', () => {
+  describe('NotificationService.notifySubscribers() unit test', () => {
     test('Should not throw an error and each mock function should be called once', async () => {
-      const notificationsService = new NotificationsService(
-        emailsRepositoryMock,
-        emailsServiceMock,
+      const notificationService = new NotificationService(
+        emailRepositoryMock,
+        emailServiceMock,
         rateServiceMock
       );
 
       try {
         const emailAddressesNotSentTo =
-          await notificationsService.notifySubscribers();
-        expect(emailsRepositoryMock.callesCounter).toBe(1);
-        expect(emailsServiceMock.callesCounter).toBe(1);
+          await notificationService.notifySubscribers();
+        expect(emailRepositoryMock.callesCounter).toBe(1);
+        expect(emailServiceMock.callesCounter).toBe(1);
         expect(rateServiceMock.callesCounter).toBe(1);
         expect(Array.isArray(emailAddressesNotSentTo)).toBe(true);
         expect(emailAddressesNotSentTo).toHaveLength(0);
@@ -55,17 +55,17 @@ describe('NotificationsService.notifySubscribers() testing', () => {
     });
   });
 
-  describe('NotificationsService.notifySubscribers() integration test', () => {
+  describe('NotificationService.notifySubscribers() integration test', () => {
     test('Should not throw an error and returned value must be an empty array', async () => {
-      const notificationsService = new NotificationsService(
-        emailsRepository,
-        emailsService,
+      const notificationService = new NotificationService(
+        emailRepository,
+        emailService,
         rateService
       );
 
       try {
         const emailAddressesNotSentTo =
-          await notificationsService.notifySubscribers();
+          await notificationService.notifySubscribers();
         expect(Array.isArray(emailAddressesNotSentTo)).toBe(true);
         expect(emailAddressesNotSentTo).toHaveLength(0);
       } catch (err) {
