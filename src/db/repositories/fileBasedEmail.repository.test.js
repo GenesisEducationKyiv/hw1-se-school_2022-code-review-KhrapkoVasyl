@@ -2,49 +2,36 @@
 'use strict';
 
 const path = require('path');
+const FileBasedEmailDataService = require('../services/file-based-email-data.service');
 const fsp = require('fs').promises;
-const FileBasedEmailsRepository = require('./fileBasedEmails.repository');
+const FileBasedEmailRepository = require('./fileBasedEmail.repository');
 
-describe('File Based Emails Repository Testing', () => {
-  const dirPath = path.join(__dirname, 'testData');
+describe('File Based Email Repository Testing', () => {
+  const dirPath = path.join(__dirname, '..', 'testData');
   const emailsFilePath = path.join(dirPath, 'emails.txt');
-  const fileBasedEmailsRepository = new FileBasedEmailsRepository(dirPath);
+
+  const fileBasedEmailDataService = new FileBasedEmailDataService(dirPath);
+  const fileBasedEmailRepository = new FileBasedEmailRepository(
+    fileBasedEmailDataService,
+    []
+  );
 
   beforeEach(async () => {
-    await fileBasedEmailsRepository.connect();
+    await fileBasedEmailDataService.connect();
   });
 
   afterEach(async () => {
-    await fileBasedEmailsRepository.clearDB();
+    await fileBasedEmailRepository.deleteAllEmails();
     await fsp
       .rm(dirPath, { recursive: true, force: true })
       .catch(err => console.log(err));
-  });
-
-  describe('Testing the .connect() method', () => {
-    // The .connect() method creates
-    // a directory at the specified path (and database files in this directory).
-    // We don't call it directly in the test
-    // because this method is called before every test.
-
-    test('Should create directory ./test and not throw an error when trying to access this folder', async () => {
-      const testFolderAccess = async () => await fsp.access(dirPath);
-
-      expect(testFolderAccess).not.toThrow();
-    });
-
-    test('Should create datafile ./test/emails.txt and not throw an error when trying to access this datafile', async () => {
-      const testFileAccess = async () => await fsp.access(emailsFilePath);
-
-      expect(testFileAccess).not.toThrow();
-    });
   });
 
   describe('Testing the .insertEmail() method', () => {
     test(`Should insert a new email address into the database, the return value should be equal to the email being inserted`, async () => {
       const newEmail = 'test@gmail.com';
 
-      const returnedEmail = await fileBasedEmailsRepository.insertEmail(
+      const returnedEmail = await fileBasedEmailRepository.insertEmail(
         newEmail
       );
 
@@ -64,13 +51,13 @@ describe('File Based Emails Repository Testing', () => {
       const newEmail2 = 'test2@gmail.com';
       const newEmail3 = 'test3@gmail.com';
 
-      const returnedEmail1 = await fileBasedEmailsRepository.insertEmail(
+      const returnedEmail1 = await fileBasedEmailRepository.insertEmail(
         newEmail1
       );
-      const returnedEmail2 = await fileBasedEmailsRepository.insertEmail(
+      const returnedEmail2 = await fileBasedEmailRepository.insertEmail(
         newEmail2
       );
-      const returnedEmail3 = await fileBasedEmailsRepository.insertEmail(
+      const returnedEmail3 = await fileBasedEmailRepository.insertEmail(
         newEmail3
       );
 
@@ -89,13 +76,13 @@ describe('File Based Emails Repository Testing', () => {
     });
   });
 
-  describe('Testing the .isEmailInDB() method', () => {
+  describe('Testing the .isEmailExists() method', () => {
     test(`Should return true when the email being checked has already been written to the database`, async () => {
       const newEmail = 'test@gmail.com';
       const emailToCheck = newEmail;
-      await fileBasedEmailsRepository.insertEmail(newEmail);
+      await fileBasedEmailRepository.insertEmail(newEmail);
 
-      const checkingResult = await fileBasedEmailsRepository.isEmailInDB(
+      const checkingResult = await fileBasedEmailRepository.isEmailExists(
         emailToCheck
       );
 
@@ -105,7 +92,7 @@ describe('File Based Emails Repository Testing', () => {
     test(`Should return false if the email being checked is not in the database`, async () => {
       const emailToCheck = 'test@gmail.com';
 
-      const checkingResult = await fileBasedEmailsRepository.isEmailInDB(
+      const checkingResult = await fileBasedEmailRepository.isEmailExists(
         emailToCheck
       );
 
@@ -118,11 +105,11 @@ describe('File Based Emails Repository Testing', () => {
       const emailToAdd1 = 'test1@gmail.com';
       const emailToAdd2 = 'test2@gmail.com';
       const emailToAdd3 = 'test3@gmail.com';
-      await fileBasedEmailsRepository.insertEmail(emailToAdd1);
-      await fileBasedEmailsRepository.insertEmail(emailToAdd2);
-      await fileBasedEmailsRepository.insertEmail(emailToAdd3);
+      await fileBasedEmailRepository.insertEmail(emailToAdd1);
+      await fileBasedEmailRepository.insertEmail(emailToAdd2);
+      await fileBasedEmailRepository.insertEmail(emailToAdd3);
 
-      const emailsArr = await fileBasedEmailsRepository.findAllEmails();
+      const emailsArr = await fileBasedEmailRepository.findAllEmails();
 
       expect(Array.isArray(emailsArr)).toBe(true);
       expect(emailsArr).toHaveLength(3);
@@ -132,33 +119,33 @@ describe('File Based Emails Repository Testing', () => {
     });
 
     test(`Should return an empty array if no email has been inserted`, async () => {
-      const emailsArr = await fileBasedEmailsRepository.findAllEmails();
+      const emailsArr = await fileBasedEmailRepository.findAllEmails();
 
       expect(Array.isArray(emailsArr)).toBe(true);
       expect(emailsArr).toHaveLength(0);
     });
   });
 
-  describe('Testing the .clearDB() method', () => {
-    test(`Should clear all inserted email addresses (array of all email addresses should become empty)`, async () => {
+  describe('Testing the .deleteAllEmails() method', () => {
+    test(`Should delete all inserted email addresses (array of all email addresses should become empty)`, async () => {
       const emailToAdd1 = 'test1@gmail.com';
       const emailToAdd2 = 'test2@gmail.com';
       const emailToAdd3 = 'test3@gmail.com';
-      await fileBasedEmailsRepository.insertEmail(emailToAdd1);
-      await fileBasedEmailsRepository.insertEmail(emailToAdd2);
-      await fileBasedEmailsRepository.insertEmail(emailToAdd3);
+      await fileBasedEmailRepository.insertEmail(emailToAdd1);
+      await fileBasedEmailRepository.insertEmail(emailToAdd2);
+      await fileBasedEmailRepository.insertEmail(emailToAdd3);
 
-      await fileBasedEmailsRepository.clearDB();
+      await fileBasedEmailRepository.deleteAllEmails();
 
-      const emailsArr = await fileBasedEmailsRepository.findAllEmails();
+      const emailsArr = await fileBasedEmailRepository.findAllEmails();
       expect(emailsArr).toHaveLength(0);
     });
 
     test(`Should not throw an error when trying to clear an empty array`, async () => {
       try {
-        await fileBasedEmailsRepository.clearDB();
+        await fileBasedEmailRepository.deleteAllEmails();
 
-        const emailsArr = await fileBasedEmailsRepository.findAllEmails();
+        const emailsArr = await fileBasedEmailRepository.findAllEmails();
         expect(emailsArr).toHaveLength(0);
       } catch (err) {
         expect(err).toBe(undefined);

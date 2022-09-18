@@ -2,7 +2,7 @@
 
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
-const EmailsSender = require('./emails.sender');
+const EmailSender = require('./email.sender');
 
 const {
   OAUTH_CLIENT_ID,
@@ -21,7 +21,7 @@ const OAuth2Client = new google.auth.OAuth2(
 // eslint-disable-next-line camelcase
 OAuth2Client.setCredentials({ refresh_token: OAUTH_REFRESH_TOKEN });
 
-class GmailNodemailerEmailsSender extends EmailsSender {
+class GmailNodemailerEmailSender extends EmailSender {
   constructor() {
     super();
 
@@ -82,4 +82,4 @@ class GmailNodemailerEmailsSender extends EmailsSender {
   }
 }
 
-module.exports = GmailNodemailerEmailsSender;
+module.exports = GmailNodemailerEmailSender;

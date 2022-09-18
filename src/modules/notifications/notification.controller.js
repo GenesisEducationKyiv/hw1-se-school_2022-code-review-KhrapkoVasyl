@@ -1,10 +1,10 @@
 'use strict';
 
-class NotificationsController {
-  #notificationsService;
+class NotificationController {
+  #notificationService;
 
-  constructor(notificationsService) {
-    this.#notificationsService = notificationsService;
+  constructor(notificationService) {
+    this.#notificationService = notificationService;
 
     this.notifySubscribers = this.notifySubscribers.bind(this);
   }
@@ -12,9 +12,9 @@ class NotificationsController {
   async notifySubscribers(req, res) {
     res.setHeader('content-type', 'application/json');
     const emailAddressesNotSentTo =
-      await this.#notificationsService.notifySubscribers();
+      await this.#notificationService.notifySubscribers();
     return res.status(200).json({ emailAddressesNotSentTo });
   }
 }
 
-module.exports = NotificationsController;
+module.exports = NotificationController;

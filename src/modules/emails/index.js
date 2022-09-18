@@ -1,4 +1,4 @@
 'use strict';
-const { emailsService } = require('./services');
+const { emailService } = require('./services');
 
-module.exports = { emailsService };
+module.exports = { emailService };

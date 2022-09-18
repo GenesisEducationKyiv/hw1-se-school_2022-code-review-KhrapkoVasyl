@@ -1,13 +1,13 @@
 'use strict';
 
-const { emailsRepository } = require('../../../db');
-const { emailsService } = require('../../emails');
+const { emailRepository } = require('../../../db');
+const { emailService } = require('../../emails');
 const { rateService } = require('../../rate');
-const NotificationsService = require('./notifications.service');
+const NotificationService = require('./notification.service');
 
-const notificationsService = new NotificationsService(
-  emailsRepository,
-  emailsService,
+const notificationService = new NotificationService(
+  emailRepository,
+  emailService,
   rateService
 );
-module.exports = { notificationsService };
+module.exports = { notificationService };

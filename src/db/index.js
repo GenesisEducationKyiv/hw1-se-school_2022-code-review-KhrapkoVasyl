@@ -1,8 +1,11 @@
 'use strict';
 
+const FileBasedEmailService = require('./services/file-based-email-data.service');
 // eslint-disable-next-line max-len
-const FileBasedEmailsRepository = require('./repositories/fileBasedEmails.repository');
+const FileBasedEmailRepository = require('./repositories/fileBasedEmail.repository');
 
-const emailsRepository = new FileBasedEmailsRepository();
+const emailService = new FileBasedEmailService();
 
-module.exports = { emailsRepository };
+const emailRepository = new FileBasedEmailRepository(emailService);
+
+module.exports = { emailService, emailRepository };

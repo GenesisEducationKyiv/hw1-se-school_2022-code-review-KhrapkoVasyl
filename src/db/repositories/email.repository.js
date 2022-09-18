@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
 'use strict';
 
-class EmailsRepository {
+class EmailRepository {
   async connect() {}
 
-  async clearDB() {}
+  async deleteAllEmails() {}
 
   async findAllEmails() {}
 
   async insertEmail(email) {}
 
-  isEmailInDB(email) {}
+  isEmailExists(email) {}
 }
 
-module.exports = EmailsRepository;
+module.exports = EmailRepository;

@@ -1,10 +1,11 @@
 'use strict';
 
-const { subscriptionsService } = require('./services');
-const SubscriptionsController = require('./subscriptions.controller');
+const { subscriptionService } = require('./services');
+const SubscriptionController = require('./subscription.controller');
 
-const subscriptionsController = new SubscriptionsController(
-  subscriptionsService
-);
+const subscriptionController = new SubscriptionController(subscriptionService);
 
-module.exports = { subscriptionsController, subscriptionsService };
+module.exports = {
+  subscriptionController,
+  subscriptionService,
+};
