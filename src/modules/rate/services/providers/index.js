@@ -2,6 +2,7 @@
 'use strict';
 
 const RateProviderChainDecorator = require('./decorators/rate-provider-chain.decorator');
+const RateProviderLoggingDecorator = require('./decorators/rate-provider-logging.decorator');
 const RateProviderCachingProxy = require('./proxies/rate-provider-caching.proxy');
 
 const BinanceRateProvider = require('./binance-rate.provider');
@@ -12,14 +13,24 @@ const binanceRateProvider = new BinanceRateProvider();
 const coinbaseRateProvider = new CoinbaseRateProvider();
 const coinmarketRateProvider = new CoinmarketRateProvider();
 
-const binanceRateProviderChain = new RateProviderChainDecorator(
+const binanceRateProviderWithLogging = new RateProviderLoggingDecorator(
   binanceRateProvider
 );
-const coinbaseRateProviderChain = new RateProviderChainDecorator(
+const coinbaseRateProviderWithLogging = new RateProviderLoggingDecorator(
   coinbaseRateProvider
 );
-const coinmarketRateProviderChain = new RateProviderChainDecorator(
+const coinmarketRateProviderWithLogging = new RateProviderLoggingDecorator(
   coinmarketRateProvider
+);
+
+const binanceRateProviderChain = new RateProviderChainDecorator(
+  binanceRateProviderWithLogging
+);
+const coinbaseRateProviderChain = new RateProviderChainDecorator(
+  coinbaseRateProviderWithLogging
+);
+const coinmarketRateProviderChain = new RateProviderChainDecorator(
+  coinmarketRateProviderWithLogging
 );
 
 binanceRateProviderChain.setNext(coinbaseRateProviderChain);

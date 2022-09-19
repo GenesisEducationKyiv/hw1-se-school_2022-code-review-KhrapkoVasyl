@@ -6,6 +6,7 @@ const RateProvider = require('./rate.provider');
 
 class BinanceRateProvider extends RateProvider {
   #URL_API_BTC_TO_UAH_RATE;
+  providerName = 'Binance';
 
   constructor() {
     super();

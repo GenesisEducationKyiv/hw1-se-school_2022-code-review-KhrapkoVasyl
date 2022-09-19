@@ -8,6 +8,7 @@ const RateProvider = require('./rate.provider');
 class CoinmarketRateProvider extends RateProvider {
   #URL_API_BTC_TO_UAH_RATE;
   #API_KEY;
+  providerName = 'Coinmarket';
 
   constructor() {
     super();
