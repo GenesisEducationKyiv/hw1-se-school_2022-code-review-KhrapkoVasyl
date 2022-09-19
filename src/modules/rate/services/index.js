@@ -1,8 +1,9 @@
 'use strict';
 
-const { rateProviderCreator } = require('./provider-creators');
+const { rateProvider } = require('./providers');
+
 const RateService = require('./rate.service');
 
-const rateService = new RateService(rateProviderCreator.createRateProvider());
+const rateService = new RateService(rateProvider);
 
 module.exports = { rateService };

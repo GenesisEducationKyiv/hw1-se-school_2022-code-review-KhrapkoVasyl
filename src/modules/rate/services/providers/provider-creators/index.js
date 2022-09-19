@@ -1,7 +1,7 @@
 'use strict';
 /* eslint-disable max-len */
 
-const CoinbaseRateProviderCreator = require('../provider-creators/coinbase-rate-provider.creator');
+const CoinbaseRateProviderCreator = require('./coinbase-rate-provider.creator');
 const BinanceRateProviderCreator = require('./binance-rate-provider.creator');
 const CoinmarketRateProviderCreator = require('./coinmarket-rate-provider.creator');
 

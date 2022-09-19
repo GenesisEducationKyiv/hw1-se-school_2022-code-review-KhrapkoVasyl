@@ -1,6 +1,6 @@
 'use strict';
 
-const BinanceRateProvider = require('../providers/binance-rate.provider');
+const BinanceRateProvider = require('../binance-rate.provider');
 const RateProviderCreator = require('./rate-provider.creator');
 
 class BinanceRateProviderCreator extends RateProviderCreator {
