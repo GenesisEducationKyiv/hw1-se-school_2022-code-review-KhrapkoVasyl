@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 'use strict';
 
-// eslint-disable-next-line max-len
 const RateProviderChainDecorator = require('./decorators/rate-provider-chain.decorator');
+const RateProviderCachingProxy = require('./proxies/rate-provider-caching.proxy');
 
 const BinanceRateProvider = require('./binance-rate.provider');
 const CoinbaseRateProvider = require('./coinbase-rate.provider');
@@ -24,4 +25,6 @@ const coinmarketRateProviderChain = new RateProviderChainDecorator(
 binanceRateProviderChain.setNext(coinbaseRateProviderChain);
 coinbaseRateProviderChain.setNext(coinmarketRateProviderChain);
 
-module.exports = { rateProvider: binanceRateProviderChain };
+const rateProvider = new RateProviderCachingProxy(binanceRateProviderChain);
+
+module.exports = { rateProvider };
