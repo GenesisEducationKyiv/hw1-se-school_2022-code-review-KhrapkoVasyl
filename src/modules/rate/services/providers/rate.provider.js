@@ -3,8 +3,9 @@
 // Interface for describing the contract,
 // which should implement Rate Receiver Class
 
-class RateReciever {
+class RateProvider {
+  providerName = 'Provider';
   async getBtcUahRate() {}
 }
 
-module.exports = RateReciever;
+module.exports = RateProvider;

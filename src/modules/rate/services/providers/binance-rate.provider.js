@@ -2,10 +2,11 @@
 
 const fetch = require('node-fetch');
 
-const RateReciever = require('./rate.reciever');
+const RateProvider = require('./rate.provider');
 
-class BinanceRateReciever extends RateReciever {
+class BinanceRateProvider extends RateProvider {
   #URL_API_BTC_TO_UAH_RATE;
+  providerName = 'Binance';
 
   constructor() {
     super();
@@ -27,4 +28,4 @@ class BinanceRateReciever extends RateReciever {
   }
 }
 
-module.exports = BinanceRateReciever;
+module.exports = BinanceRateProvider;

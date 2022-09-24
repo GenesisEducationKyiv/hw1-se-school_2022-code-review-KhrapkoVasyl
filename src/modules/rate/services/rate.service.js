@@ -1,15 +1,16 @@
 'use strict';
 
 class RateService {
-  #rateReciever;
-  constructor(rateReciever) {
-    this.#rateReciever = rateReciever;
+  #rateProvider;
+  constructor(rateProvider) {
+    this.#rateProvider = rateProvider;
 
-    this.#rateReciever.getBtcUahRate =
-      this.#rateReciever.getBtcUahRate.bind(this);
+    this.#rateProvider.getBtcUahRate =
+      this.#rateProvider.getBtcUahRate.bind(this);
   }
   async getRate() {
-    return this.#rateReciever.getBtcUahRate();
+    return this.#rateProvider.getBtcUahRate();
   }
 }
+
 module.exports = RateService;

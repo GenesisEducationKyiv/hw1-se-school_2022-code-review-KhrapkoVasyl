@@ -1,9 +1,9 @@
 'use strict';
 
-const BinanceRateReciever = require('./rate-receivers/binance-rate.reciever');
+const { rateProvider } = require('./providers');
+
 const RateService = require('./rate.service');
 
-const binanceRateReciever = new BinanceRateReciever();
-const rateService = new RateService(binanceRateReciever);
+const rateService = new RateService(rateProvider);
 
 module.exports = { rateService };
