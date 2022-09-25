@@ -24,6 +24,8 @@
 
 Genesis Software Engineering School test task. API to track the exchange rate of BTC (bitcoin) to the UAH (hryvnia)
 
+View [Application Architecture Diagram](https://genesiseducationkyiv.github.io/hw1-se-school_2022-code-review-KhrapkoVasyl/app-architecture)
+
 ### Built with
 
 - Runtime environment: [Node.js](https://nodejs.org/)
