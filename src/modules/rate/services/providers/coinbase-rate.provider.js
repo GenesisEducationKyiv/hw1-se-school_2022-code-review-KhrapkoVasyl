@@ -6,7 +6,7 @@ const RateProvider = require('./rate.provider');
 
 class CoinbaseRateProvider extends RateProvider {
   #URL_API_BTC_TO_UAH_RATE;
-  providerName = 'Coinbase';
+  name = 'Coinbase';
 
   constructor() {
     super();
@@ -14,6 +14,10 @@ class CoinbaseRateProvider extends RateProvider {
       'https://api.coinbase.com/v2/prices/BTC-UAH/buy';
 
     this.getBtcUahRate = this.getBtcUahRate.bind(this);
+  }
+
+  getName() {
+    return this.name;
   }
 
   async getBtcUahRate() {

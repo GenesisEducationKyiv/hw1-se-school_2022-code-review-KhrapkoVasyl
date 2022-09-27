@@ -11,6 +11,10 @@ class RateProviderChainDecorator {
     this.nextRateProvider = nextRateProvider;
   }
 
+  getName() {
+    return this.rateProvider.getName();
+  }
+
   async getBtcUahRate() {
     try {
       return await this.rateProvider.getBtcUahRate();
