@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').config();
+const { COINMARKET_API_KEY } = require('../../../../config');
 const fetch = require('node-fetch');
 
 const RateProvider = require('./rate.provider');
@@ -14,7 +14,7 @@ class CoinmarketRateProvider extends RateProvider {
     super();
     this.#URL_API_BTC_TO_UAH_RATE =
       'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest';
-    this.#API_KEY = process.env.COINMARKET_API_KEY || '';
+    this.#API_KEY = COINMARKET_API_KEY;
     this.getBtcUahRate = this.getBtcUahRate.bind(this);
   }
 

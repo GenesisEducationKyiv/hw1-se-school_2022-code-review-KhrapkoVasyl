@@ -5,10 +5,9 @@ const CoinbaseRateProviderCreator = require('./coinbase-rate-provider.creator');
 const BinanceRateProviderCreator = require('./binance-rate-provider.creator');
 const CoinmarketRateProviderCreator = require('./coinmarket-rate-provider.creator');
 
-require('dotenv').config();
+const { CRYPTO_CURRENCY_PROVIDER } = require('../../../../../config');
 
 let rateProviderCreator;
-const CRYPTO_CURRENCY_PROVIDER = process.env.CRYPTO_CURRENCY_PROVIDER || '';
 switch (CRYPTO_CURRENCY_PROVIDER) {
   case 'Coinmarket':
     rateProviderCreator = new CoinmarketRateProviderCreator();
