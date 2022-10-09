@@ -4,12 +4,16 @@ const NodeCache = require('node-cache');
 
 class RateProviderCachingProxy {
   #ratesCache;
-  #TTL = 300; // in seconds
+  #TTL = 2; // in seconds
   constructor(rateProvider) {
     this.rateProvider = rateProvider;
     this.cacheKeyName = 'rate';
     this.#ratesCache = new NodeCache();
     this.getBtcUahRate = this.getBtcUahRate.bind(this);
+  }
+
+  getName() {
+    return this.rateProvider.getName();
   }
 
   async getBtcUahRate() {

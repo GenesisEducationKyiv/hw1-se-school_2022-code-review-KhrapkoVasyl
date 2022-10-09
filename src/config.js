@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const PREFIX = '/api';
 const URL_API_BTC_TO_UAH_RATE =
   'https://api.binance.com/api/v3/ticker/price?symbol=BTCUAH';
@@ -29,9 +31,21 @@ const SWAGGER_OPTIONS = {
   apis: [`${__dirname}/routes/*.js`],
 };
 
+const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || '0.0.0.0';
+const EMAILS_FILENAME = process.env.EMAILS_FILENAME || 'emails.txt';
+const COINMARKET_API_KEY = process.env.COINMARKET_API_KEY || '';
+const CRYPTO_CURRENCY_PROVIDER = process.env.CRYPTO_CURRENCY_PROVIDER || '';
+
 module.exports = {
   URL_API_BTC_TO_UAH_RATE,
   PREFIX,
   ERR_CODE_NO_SUCH_FILE,
   SWAGGER_OPTIONS,
+  ...process.env,
+  PORT,
+  HOST,
+  EMAILS_FILENAME,
+  COINMARKET_API_KEY,
+  CRYPTO_CURRENCY_PROVIDER,
 };

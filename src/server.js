@@ -1,10 +1,8 @@
 'use strict';
 
-require('dotenv').config();
+const { HOST, PORT } = require('./config');
 const { emailService, emailRepository } = require('./db');
 const app = require('./app');
-const PORT = process.env.PORT || 8080;
-const HOST = process.env.HOST || 'localhost';
 
 (async () => {
   const emails = await emailService.connect();

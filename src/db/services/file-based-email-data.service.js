@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').config();
+const { EMAILS_FILENAME } = require('../../config');
 const fsp = require('fs').promises;
 const path = require('path');
 const { ERR_CODE_NO_SUCH_FILE } = require('../../config');
@@ -8,7 +8,7 @@ const { ERR_CODE_NO_SUCH_FILE } = require('../../config');
 const EmailDataService = require('./email-data.service');
 
 class FileBasedEmailDataService extends EmailDataService {
-  #emailsFilename = process.env.EMAILS_FILENAME || 'emails.txt';
+  #emailsFilename = EMAILS_FILENAME;
   #dataDirectory;
   #pathToEmailsFile;
 

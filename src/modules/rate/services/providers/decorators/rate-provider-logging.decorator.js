@@ -4,18 +4,20 @@ class RateProviderLoggingDecorator {
   constructor(rateProvider) {
     this.rateProvider = rateProvider;
     this.loggingPattern = '[NAME] - Response: {rate: [RATE]}';
-    this.defailtProviderName = 'Provider';
+    this.defaultProviderName = 'Provider';
     this.getBtcUahRate = this.getBtcUahRate.bind(this);
   }
 
   logRate(rate) {
+    const name = this.getName();
     const loggingMessage = this.loggingPattern
-      .replaceAll(
-        '[NAME]',
-        this.rateProvider.providerName || this.defailtProviderName
-      )
+      .replaceAll('[NAME]', name || this.defaultProviderName)
       .replaceAll('[RATE]', rate);
     console.log(loggingMessage);
+  }
+
+  getName() {
+    return this.rateProvider.getName();
   }
 
   async getBtcUahRate() {

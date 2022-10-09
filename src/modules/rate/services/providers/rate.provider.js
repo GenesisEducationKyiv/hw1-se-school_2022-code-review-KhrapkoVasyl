@@ -4,7 +4,11 @@
 // which should implement Rate Receiver Class
 
 class RateProvider {
-  providerName = 'Provider';
+  name = 'Provider';
+
+  getName() {
+    return this.name;
+  }
   async getBtcUahRate() {}
 }
 

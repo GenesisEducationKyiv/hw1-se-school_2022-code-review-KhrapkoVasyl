@@ -6,7 +6,7 @@ const RateProvider = require('./rate.provider');
 
 class BinanceRateProvider extends RateProvider {
   #URL_API_BTC_TO_UAH_RATE;
-  providerName = 'Binance';
+  name = 'Binance';
 
   constructor() {
     super();
@@ -14,6 +14,10 @@ class BinanceRateProvider extends RateProvider {
       'https://api.binance.com/api/v3/ticker/price?symbol=BTCUAH';
 
     this.getBtcUahRate = this.getBtcUahRate.bind(this);
+  }
+
+  getName() {
+    return this.name;
   }
 
   async getBtcUahRate() {
