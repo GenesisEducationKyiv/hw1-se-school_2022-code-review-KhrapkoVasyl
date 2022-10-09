@@ -1,6 +1,6 @@
 'use strict';
 
-const { emailRepository } = require('../../../db');
+const { emailRepository } = require('../../repositories');
 const SubscriptionService = require('./subscription.service');
 
 const subscriptionService = new SubscriptionService(emailRepository);

@@ -1,9 +1,9 @@
 'use strict';
 
-const { EMAILS_FILENAME } = require('../../config');
+const { EMAILS_FILENAME } = require('../../../../config');
 const fsp = require('fs').promises;
 const path = require('path');
-const { ERR_CODE_NO_SUCH_FILE } = require('../../config');
+const { ERR_CODE_NO_SUCH_FILE } = require('../../../../config');
 
 const EmailDataService = require('./email-data.service');
 
@@ -12,7 +12,9 @@ class FileBasedEmailDataService extends EmailDataService {
   #dataDirectory;
   #pathToEmailsFile;
 
-  constructor(dataDirectory = path.join(__dirname, '..', 'emailData')) {
+  constructor(
+    dataDirectory = path.join(__dirname, '..', '..', 'data', 'emailData')
+  ) {
     super();
     this.#dataDirectory = dataDirectory;
 
