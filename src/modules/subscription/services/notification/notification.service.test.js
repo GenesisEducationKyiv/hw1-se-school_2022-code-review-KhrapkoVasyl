@@ -3,9 +3,9 @@
 
 require('dotenv').config();
 const NotificationService = require('./notification.service');
-const { emailRepository } = require('../../../db');
-const { emailService } = require('../../emails');
-const { rateService } = require('../../rate');
+const { emailRepository } = require('../../../../db');
+const { emailService } = require('../../../emails');
+const { rateService } = require('../../../rate');
 
 const mockRate = 50000;
 const rateServiceMock = {

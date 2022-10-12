@@ -2,12 +2,14 @@
 
 const express = require('express');
 
-const validateRequest = require('../middlewares/validateRequest');
+const { validateRequest } = require('../common');
 // eslint-disable-next-line max-len
-const subscribeValidationSchema = require('../middlewares/subscribeValidationSchema');
 const { rateController } = require('../modules/rate');
-const { subscriptionController } = require('../modules/subscriptions');
-const { notificationController } = require('../modules/notifications');
+const {
+  subscriptionController,
+  notificationController,
+  subscribeValidationSchema,
+} = require('../modules/subscription');
 
 const router = express.Router();
 
