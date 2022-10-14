@@ -13,11 +13,9 @@ class RabbitMQMessageBrokerService {
       const connection = await amqplib.connect(amqpUrl);
       const channel = await connection.createChannel();
       await channel.assertQueue(queue, { durable: true });
-      console.log('CONNECTED');
       await channel.consume(queue, message => {
-        console.log('RECIEVED');
         const input = JSON.parse(message.content.toString());
-        // callback(input);
+        callback(input);
         channel.ack(message);
       });
     } catch (err) {
