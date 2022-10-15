@@ -9,7 +9,6 @@ class LoggerUsingBrokerService {
     const currentDate = new Date().toISOString();
     const logMessage = `[${currentDate}] - ${message}`;
     this.#messageBrokerService.publishUsingDefaultExchange(queue, logMessage);
-    // console.log(logMessage);
   }
 
   logInfo(message) {

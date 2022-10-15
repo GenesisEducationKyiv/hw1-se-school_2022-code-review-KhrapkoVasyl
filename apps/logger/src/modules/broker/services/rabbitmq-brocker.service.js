@@ -10,9 +10,7 @@ class RabbitMQMessageBrokerService {
 
   async consume(queue, callback) {
     try {
-      console.log('CONNECTION LOGGER');
       const connection = await amqplib.connect(amqpUrl);
-      console.log('\n\n\nCONNTECTION', connection, '\n\n');
       const channel = await connection.createChannel();
       await channel.assertQueue(queue, { durable: true });
       await channel.consume(queue, message => {
