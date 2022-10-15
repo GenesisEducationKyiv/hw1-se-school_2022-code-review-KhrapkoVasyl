@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || '0.0.0.0';
 const EMAILS_FILENAME = process.env.EMAILS_FILENAME || 'emails.txt';
 const COINMARKET_API_KEY = process.env.COINMARKET_API_KEY || '';
-const AMQP_URL = process.env.AMQP_URL || 'amqp://localhost:5672';
+const AMQP_URL = process.env.AMQP_URL || 'amqp://0.0.0.0:5672';
 const CRYPTO_CURRENCY_PROVIDER = process.env.CRYPTO_CURRENCY_PROVIDER || '';
 
 module.exports = {

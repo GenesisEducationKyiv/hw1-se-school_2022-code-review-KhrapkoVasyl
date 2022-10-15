@@ -1,16 +1,61 @@
-version: '3.2'
+version: '3'
+networks:
+  app-tier:
+    driver: bridge
+
 services:
   rabbitmq:
-    image: rabbitmq:3.8-management-alpine
-    container_name: 'rabbitmq'
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
     ports:
-      - 5672:5672
-      - 15672:15672
+      - '0.0.0.0:5672:5672'
+      - '0.0.0.0:15672:15672'
     volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - /var/lib/rabbitmq
     networks:
-      - rabbitmq_nodejs
-networks:
-  rabbitmq_nodejs:
-    driver: bridge
+      - app-tier
+
+  waitforrabbit:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    command: rabbitmq:5672
+    networks:
+      - app-tier
+
+  btc-uah-rate-api:
+    container_name: btc-uah-rate-api
+    build: ./apps/btc-uah-rate
+    volumes:
+      - /app/node_modules
+    ports:
+      - 8080:8080
+    command: npm run start
+    depends_on:
+      - waitforrabbit
+      - rabbitmq
+    links:
+      - rabbitmq
+    restart: always
+    networks:
+      - app-tier
+
+  logger:
+    container_name: logger
+    build: ./apps/logger
+    volumes:
+      - /app/node_modules
+    ports:
+      - 8079:8079
+    command: npm run start
+    depends_on:
+      - waitforrabbit
+      - rabbitmq
+    links:
+      - rabbitmq
+    restart: always
+    networks:
+      - app-tier
