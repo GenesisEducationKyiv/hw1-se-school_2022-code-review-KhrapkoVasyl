@@ -18,7 +18,7 @@ class SubscriptionController {
     try {
       const isSubscribed = this.#subscriptionService.isSubscribed(email);
       if (isSubscribed) {
-        loggerService.logError(new Error('Message already exists'));
+        loggerService.logError(new Error('Email address already subscribed'));
         return res.status(409).send();
       }
 
